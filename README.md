@@ -51,8 +51,8 @@ Welcome! Below is a collection of my DevOps, Cloud, Linux, and Security certific
 
 # 📫 Connect with Me
 
-- [LinkedIn Profile](https://linkedin.com/in/yourprofile)
-- [GitHub Profile](https://github.com/yourgithubusername)
+- [LinkedIn Profile](https://www.linkedin.com/in/catalin-c-02024a251/)
+- [GitHub Profile](https://github.com/catalin-caldararu)
 
 ---
 
