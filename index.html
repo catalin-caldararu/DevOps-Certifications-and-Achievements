@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +60,6 @@
       text-decoration: underline;
     }
 
-    /* Modal Styles */
     #imageModal {
       display: none;
       position: fixed;
@@ -86,6 +86,20 @@
       cursor: pointer;
       z-index: 10000;
     }
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      font-size: 60px;
+      color: white;
+      background: rgba(0,0,0,0.3);
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10000;
+      transform: translateY(-50%);
+    }
+    .prev { left: 20px; }
+    .next { right: 20px; }
   </style>
 </head>
 <body>
@@ -94,45 +108,22 @@
   <p>Welcome! Below is a collection of my DevOps, Cloud, Linux, and Security certifications.</p>
 
   <h2>🏅 Certifications Gallery</h2>
-
-  <div class="gallery">
-    <img src="Anisible-Fundamentals.png" alt="Ansible Fundamentals" onclick="openModal(this)">
-    <img src="Ansible-Advanced.png" alt="Ansible Advanced" onclick="openModal(this)">
-    <img src="DevOps-AwS.png" alt="AWS Systems Operations" onclick="openModal(this)">
-    <img src="Gogole-Cloud.png" alt="Google Cloud" onclick="openModal(this)">
-    <img src="docker jenkins kubernetes fundamentals.png" alt="Docker Jenkins Kubernetes" onclick="openModal(this)">
-    <img src="Jenkins-Fundamentals.png" alt="Jenkins Fundamentals" onclick="openModal(this)">
-    <img src="Linux-Avansat.png" alt="Linux Essentials" onclick="openModal(this)">
-    <img src="Linux-LPIC1.png" alt="LPIC1" onclick="openModal(this)">
-    <img src="RedHat-Linux.png" alt="Red Hat Linux" onclick="openModal(this)">
-    <img src="Security-1.png" alt="Ethical Hacking" onclick="openModal(this)">
-    <img src="Scaling Cloud Native Applications.png" alt="Scaling Cloud Native" onclick="openModal(this)">
-    <img src="Kubernetes-Certificate.png" alt="Kubernetes" onclick="openModal(this)">
-    <img src="Aws Cloud Serverless Knowledge.png" alt="AWS Serverless" onclick="openModal(this)">
-    <img src="Aws Lambda Foundations.png" alt="AWS Lambda" onclick="openModal(this)">
-    <img src="Security.png" alt="Security Awareness" onclick="openModal(this)">
-  </div>
-
-  <div class="section">
-    <h2>🛠️ Key Skills</h2>
-    <ul>
-      <li>Ansible Automation</li>
-      <li>CI/CD Pipelines (Jenkins, GitHub Actions)</li>
-      <li>Containerization (Docker, Kubernetes)</li>
-      <li>Cloud Computing (AWS, Google Cloud)</li>
-      <li>Infrastructure as Code (Terraform, CloudFormation)</li>
-      <li>Linux Administration and Security</li>
-      <li>IT Security and Awareness</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>🚀 Next Goals</h2>
-    <ul>
-      <li>Achieve Certified Kubernetes Administrator (CKA)</li>
-      <li>Advance towards AWS Certified Solutions Architect</li>
-      <li>Strengthen DevSecOps and Cloud Security skills</li>
-    </ul>
+  <div class="gallery" id="gallery">
+    <img src="Anisible-Fundamentals.png" alt="Ansible Fundamentals" onclick="openModal(0)">
+    <img src="Ansible-Advanced.png" alt="Ansible Advanced" onclick="openModal(1)">
+    <img src="DevOps-AwS.png" alt="AWS Systems Operations" onclick="openModal(2)">
+    <img src="Gogole-Cloud.png" alt="Google Cloud" onclick="openModal(3)">
+    <img src="docker jenkins kubernetes fundamentals.png" alt="Docker Jenkins Kubernetes" onclick="openModal(4)">
+    <img src="Jenkins-Fundamentals.png" alt="Jenkins Fundamentals" onclick="openModal(5)">
+    <img src="Linux-Avansat.png" alt="Linux Essentials" onclick="openModal(6)">
+    <img src="Linux-LPIC1.png" alt="LPIC1" onclick="openModal(7)">
+    <img src="RedHat-Linux.png" alt="Red Hat Linux" onclick="openModal(8)">
+    <img src="Security-1.png" alt="Ethical Hacking" onclick="openModal(9)">
+    <img src="Scaling Cloud Native Applications.png" alt="Scaling Cloud Native" onclick="openModal(10)">
+    <img src="Kubernetes-Certificate.png" alt="Kubernetes" onclick="openModal(11)">
+    <img src="Aws Cloud Serverless Knowledge.png" alt="AWS Serverless" onclick="openModal(12)">
+    <img src="Aws Lambda Foundations.png" alt="AWS Lambda" onclick="openModal(13)">
+    <img src="Security.png" alt="Security Awareness" onclick="openModal(14)">
   </div>
 
   <div class="section">
@@ -144,23 +135,53 @@
     </ul>
   </div>
 
-  <!-- Modal for Enlarged Image -->
-  <div id="imageModal" onclick="closeModal()">
+  <div id="imageModal">
     <span id="closeBtn" onclick="closeModal()">×</span>
+    <button class="nav-btn prev" onclick="prevImage(event)">❮</button>
     <img id="modalImage">
+    <button class="nav-btn next" onclick="nextImage(event)">❯</button>
   </div>
 
   <script>
-    function openModal(img) {
+    const images = Array.from(document.querySelectorAll('.gallery img'));
+    let currentIndex = 0;
+
+    function openModal(index) {
+      currentIndex = index;
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
-      modalImg.src = img.src;
+      modalImg.src = images[currentIndex].src;
       modal.style.display = 'flex';
     }
 
     function closeModal() {
       document.getElementById('imageModal').style.display = 'none';
     }
+
+    function prevImage(event) {
+      event.stopPropagation();
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      document.getElementById('modalImage').src = images[currentIndex].src;
+    }
+
+    function nextImage(event) {
+      event.stopPropagation();
+      currentIndex = (currentIndex + 1) % images.length;
+      document.getElementById('modalImage').src = images[currentIndex].src;
+    }
+
+    document.addEventListener('keydown', function(event) {
+      const modal = document.getElementById('imageModal');
+      if (modal.style.display === 'flex') {
+        if (event.key === 'Escape') {
+          closeModal();
+        } else if (event.key === 'ArrowRight') {
+          nextImage(event);
+        } else if (event.key === 'ArrowLeft') {
+          prevImage(event);
+        }
+      }
+    });
   </script>
 
 </body>
